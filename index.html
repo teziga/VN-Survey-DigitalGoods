@@ -1,223 +1,227 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>越南学生数码消费调查 V10</title>
+    <title>Khảo sát tiêu dùng - 数码消费调查</title>
     <style>
-        :root { --primary-color: #2563eb; --bg-color: #f8fafc; --card-bg: #ffffff; --text-color: #1e293b; }
-        body { font-family: system-ui, -apple-system, sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; line-height: 1.6; }
-        .container { max-width: 600px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h1 { text-align: center; color: var(--primary-color); font-size: 24px; margin-bottom: 30px; }
-        .section-title { background: #f1f5f9; padding: 10px 15px; border-left: 5px solid var(--primary-color); margin: 30px 0 15px; font-weight: bold; border-radius: 0 4px 4px 0; }
-        .question { margin-bottom: 25px; }
+        :root { --primary-color: #2563eb; --bg-color: #f8fafc; --card-bg: #ffffff; --text-color: #1e293b; --accent-color: #ef4444; }
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 15px; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { text-align: center; color: var(--primary-color); font-size: 22px; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        .question { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0; }
         .question-text { font-weight: 600; margin-bottom: 12px; display: block; font-size: 16px; }
-        .options-group { display: flex; flex-direction: column; gap: 10px; }
-        label { display: flex; align-items: center; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .lang-zh { color: #64748b; font-size: 0.9em; margin-left: 8px; font-weight: normal; }
+        .options-group { display: flex; flex-direction: column; gap: 8px; }
+        label { display: flex; align-items: center; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
         label:hover { background: #f8fafc; border-color: var(--primary-color); }
-        input[type="radio"], input[type="checkbox"] { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; }
-        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 10px; box-sizing: border-box; }
+        input[type="radio"], input[type="checkbox"] { margin-right: 12px; width: 18px; height: 18px; }
+        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 8px; box-sizing: border-box; }
         .hidden { display: none; }
-        .submit-btn { width: 100%; padding: 18px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 40px; }
+        .submit-btn { width: 100%; padding: 16px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        
+        /* 轮盘样式 */
+        .wheel-box { position: relative; width: 280px; height: 280px; margin: 20px auto; }
+        #wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid #334155; position: relative; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); overflow: hidden; background: #fff; }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid var(--accent-color); z-index: 10; }
+        .prize-item { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; left: 0; top: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>学生数码消费调查</h1>
-    <form id="surveyForm">
-        <div class="section-title">第一部分：基础信息</div>
-        
-        <div class="question">
-            <span class="question-text">1. 你的年龄是？</span>
-            <div class="options-group">
-                <label><input type="radio" name="age_group" value="16-18" required> 16~18岁</label>
-                <label><input type="radio" name="age_group" value="18-22"> 18~22岁</label>
-                <label><input type="radio" name="age_group" value="22+"> 22岁以上</label>
+    <div id="surveyContent">
+        <h1>Khảo sát tiêu dùng <br><span style="font-size: 16px; font-weight: normal;">数码消费调查</span></h1>
+        <form id="surveyForm">
+            <div class="question">
+                <span class="question-text">1. Độ tuổi của bạn là bao nhiêu? <span class="lang-zh">你的年龄是？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="age_group" value="16-18" required> 16-18</label>
+                    <label><input type="radio" name="age_group" value="18-22"> 18-22</label>
+                    <label><input type="radio" name="age_group" value="22+"> 22+</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">2. 你的性别是？</span>
-            <div class="options-group">
-                <label><input type="radio" name="gender" value="男" required> 男</label>
-                <label><input type="radio" name="gender" value="女"> 女</label>
+            <div class="question">
+                <span class="question-text">2. Giới tính của bạn? <span class="lang-zh">你的性别是？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="gender" value="Nam" required> Nam / 男</label>
+                    <label><input type="radio" name="gender" value="Nữ"> Nữ / 女</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">3. 你目前的身份是？</span>
-            <div class="options-group">
-                <label><input type="radio" name="identity" value="中学生" required> 中学生</label>
-                <label><input type="radio" name="identity" value="大学生"> 大学生</label>
-                <label><input type="radio" name="identity" value="已工作"> 已工作</label>
-                <label><input type="radio" name="identity" value="其他"> 其他</label>
+            <div class="question">
+                <span class="question-text">3. Hiện tại bạn là? <span class="lang-zh">你目前的身份是？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="identity" value="Học sinh" required> Học sinh / 中学生</label>
+                    <label><input type="radio" name="identity" value="Sinh viên"> Sinh viên / 大学生</label>
+                    <label><input type="radio" name="identity" value="Đã đi làm"> Đã đi làm / 已工作</label>
+                    <label><input type="radio" name="identity" value="Khác"> Khác / 其他</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">4. 你目前主要居住在哪里？</span>
-            <div class="options-group">
-                <label><input type="radio" name="residence" value="学校宿舍" required> 学校宿舍</label>
-                <label><input type="radio" name="residence" value="与家人同住"> 与家人同住</label>
-                <label><input type="radio" name="residence" value="校外租房"> 校外租房</label>
+            <div class="question">
+                <span class="question-text">4. Hiện tại bạn đang sống ở đâu? <span class="lang-zh">你目前主要居住在哪里？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="residence" value="Ký túc xá" required> Ký túc xá / 学校宿舍</label>
+                    <label><input type="radio" name="residence" value="Ở với gia đình"> Ở với gia đình / 与家人同住</label>
+                    <label><input type="radio" name="residence" value="Thuê ngoài"> Thuê ngoài / 校外租房</label>
+                </div>
             </div>
-        </div>
 
-        <div class="section-title">第二部分：数码设备</div>
-
-        <div class="question">
-            <span class="question-text">5. 你目前使用的手机品牌是？</span>
-            <div class="options-group">
-                <label><input type="radio" name="current_phone" value="iPhone" required> iPhone</label>
-                <label><input type="radio" name="current_phone" value="Samsung"> Samsung</label>
-                <label><input type="radio" name="current_phone" value="Xiaomi/Redmi"> Xiaomi / Redmi</label>
-                <label><input type="radio" name="current_phone" value="OPPO/Vivo"> OPPO / Vivo</label>
-                <label><input type="radio" name="current_phone" value="其他"> 其他</label>
+            <div class="question">
+                <span class="question-text">5. Bạn đang dùng điện thoại hãng nào? <span class="lang-zh">你目前使用的手机品牌是？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="current_phone" value="iPhone" required> iPhone</label>
+                    <label><input type="radio" name="current_phone" value="Samsung"> Samsung</label>
+                    <label><input type="radio" name="current_phone" value="Xiaomi"> Xiaomi / Redmi</label>
+                    <label><input type="radio" name="current_phone" value="OPPO/Vivo"> OPPO / Vivo</label>
+                    <label><input type="radio" name="current_phone" value="Khác"> Khác / 其他</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">6. 你当前手机的大概价格是？</span>
-            <div class="options-group">
-                <label><input type="radio" name="phone_price" value="<3M" required> 300万越盾以下</label>
-                <label><input type="radio" name="phone_price" value="3M-7M"> 300万~700万越盾</label>
-                <label><input type="radio" name="phone_price" value="7M-12M"> 700万~1200万越盾</label>
-                <label><input type="radio" name="phone_price" value="12M+"> 1200万越盾以上</label>
+            <div class="question">
+                <span class="question-text">6. Giá điện thoại hiện tại của bạn? <span class="lang-zh">你当前手机的大概价格是？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="phone_price" value="<3M" required> < 3tr VNĐ / 300万以下</label>
+                    <label><input type="radio" name="phone_price" value="3M-7M"> 3tr - 7tr VNĐ / 300-700万</label>
+                    <label><input type="radio" name="phone_price" value="7M-12M"> 7tr - 12tr VNĐ / 700-1200万</label>
+                    <label><input type="radio" name="phone_price" value=">12M"> > 12tr VNĐ / 1200万以上</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">7. 未来你最想购买哪些产品？</span>
-            <div class="options-group">
-                <label><input type="radio" name="future_wishlist" value="智能手机" required> 智能手机</label>
-                <label><input type="radio" name="future_wishlist" value="平板"> 平板</label>
-                <label><input type="radio" name="future_wishlist" value="笔记本电脑"> 笔记本电脑</label>
-                <label><input type="radio" name="future_wishlist" value="其他" id="wishlist_other_radio"> 其他</label>
-                <input type="text" id="wishlist_other_input" class="hidden" placeholder="请输入你想购买的产品">
+            <div class="question">
+                <span class="question-text">7. Sản phẩm bạn muốn mua nhất? <span class="lang-zh">未来你最想购买哪些产品？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="future_wishlist" value="Smartphone" required> Smartphone / 智能手机</label>
+                    <label><input type="radio" name="future_wishlist" value="Tablet"> Tablet / 平板</label>
+                    <label><input type="radio" name="future_wishlist" value="Laptop"> Laptop / 笔记本电脑</label>
+                    <label><input type="radio" name="future_wishlist" value="Khác" id="wishlist_other_radio"> Khác / 其他</label>
+                    <input type="text" id="wishlist_other_input" class="hidden" placeholder="Vui lòng nhập / 请输入">
+                </div>
             </div>
-        </div>
 
-        <div class="section-title">第三部分：购买习惯</div>
-
-        <div class="question">
-            <span class="question-text">8. 你平时最常使用哪些平台？（可多选）</span>
-            <div class="options-group">
-                <label><input type="checkbox" name="social_media" value="TikTok"> TikTok</label>
-                <label><input type="checkbox" name="social_media" value="Facebook"> Facebook</label>
-                <label><input type="checkbox" name="social_media" value="YouTube"> YouTube</label>
-                <label><input type="checkbox" name="social_media" value="Zalo"> Zalo</label>
-                <label><input type="checkbox" name="social_media" value="Shopee/Lazada"> Shopee / Lazada</label>
+            <div class="question">
+                <span class="question-text">8. Nền tảng bạn thường dùng? (Nhiều lựa chọn) <span class="lang-zh">你平时最常使用哪些平台？（多选）</span></span>
+                <div class="options-group">
+                    <label><input type="checkbox" name="social_media" value="TikTok"> TikTok</label>
+                    <label><input type="checkbox" name="social_media" value="Facebook"> Facebook</label>
+                    <label><input type="checkbox" name="social_media" value="YouTube"> YouTube</label>
+                    <label><input type="checkbox" name="social_media" value="Zalo"> Zalo</label>
+                    <label><input type="checkbox" name="social_media" value="Shopee/Lazada"> Shopee / Lazada</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">9. 你通常通过哪里了解数码产品信息？</span>
-            <div class="options-group">
-                <label><input type="radio" name="info_source" value="TikTok短视频" required> TikTok短视频</label>
-                <label><input type="radio" name="info_source" value="Facebook群组"> Facebook群组</label>
-                <label><input type="radio" name="info_source" value="YouTube评测"> YouTube评测</label>
-                <label><input type="radio" name="info_source" value="朋友推荐"> 朋友推荐</label>
-                <label><input type="radio" name="info_source" value="线下手机店"> 线下手机店</label>
-                <label><input type="radio" name="info_source" value="Shopee/Lazada"> Shopee / Lazada</label>
+            <div class="question">
+                <span class="question-text">9. Bạn tìm hiểu thông tin từ đâu? <span class="lang-zh">你通常通过哪里了解数码产品信息？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="info_source" value="TikTok" required> TikTok</label>
+                    <label><input type="radio" name="info_source" value="Facebook Group"> Facebook Group</label>
+                    <label><input type="radio" name="info_source" value="YouTube"> YouTube</label>
+                    <label><input type="radio" name="info_source" value="Bạn bè"> Bạn bè / 朋友推荐</label>
+                    <label><input type="radio" name="info_source" value="Cửa hàng"> Cửa hàng / 线下手机店</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question" id="factors_question">
-            <span class="question-text">10. 以下哪些因素最影响你购买手机？（最多选2项）</span>
-            <div class="options-group">
-                <label><input type="checkbox" name="buying_factors" value="品牌"> 品牌</label>
-                <label><input type="checkbox" name="buying_factors" value="外观"> 外观</label>
-                <label><input type="checkbox" name="buying_factors" value="游戏性能"> 游戏性能</label>
-                <label><input type="checkbox" name="buying_factors" value="拍照"> 拍照</label>
-                <label><input type="checkbox" name="buying_factors" value="社交认同"> 社交认同</label>
-                <label><input type="checkbox" name="buying_factors" value="价格"> 价格</label>
-                <label><input type="checkbox" name="buying_factors" value="电池续航"> 电池续航</label>
+            <div class="question">
+                <span class="question-text">10. Yếu tố ảnh hưởng khi mua? (Tối đa 2) <span class="lang-zh">哪些因素最影响你购买手机？（最多2项）</span></span>
+                <div class="options-group">
+                    <label><input type="checkbox" name="buying_factors" value="Thương hiệu"> Thương hiệu / 品牌</label>
+                    <label><input type="checkbox" name="buying_factors" value="Ngoại hình"> Ngoại hình / 外观</label>
+                    <label><input type="checkbox" name="buying_factors" value="Hiệu năng"> Hiệu năng / 游戏性能</label>
+                    <label><input type="checkbox" name="buying_factors" value="Chụp ảnh"> Chụp ảnh / 拍照</label>
+                    <label><input type="checkbox" name="buying_factors" value="Giá cả"> Giá cả / 价格</label>
+                    <label><input type="checkbox" name="buying_factors" value="Pin"> Pin / 电池续航</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">11. 你平时更倾向于购买哪种类型的数码产品？</span>
-            <div class="options-group">
-                <label><input type="radio" name="second_hand_attitude" value="只买全新" required> 我只愿意购买全新的产品</label>
-                <label><input type="radio" name="second_hand_attitude" value="考虑二手"> 我愿意考虑购买二手产品</label>
-                <label><input type="radio" name="second_hand_attitude" value="经常买二手"> 我经常购买二手产品</label>
+            <div class="question">
+                <span class="question-text">11. Bạn có mua đồ cũ không? <span class="lang-zh">你平时更倾向于购买哪种类型的数码产品？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="second_hand_attitude" value="Chỉ mua mới" required> Chỉ mua mới / 只买全新</label>
+                    <label><input type="radio" name="second_hand_attitude" value="Cân nhắc đồ cũ"> Cân nhắc đồ cũ / 考虑二手</label>
+                    <label><input type="radio" name="second_hand_attitude" value="Thường mua đồ cũ"> Thường mua đồ cũ / 经常买二手</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">12. 你未来多久内可能购买新的数码产品？</span>
-            <div class="options-group">
-                <label><input type="radio" name="buying_timeline" value="1个月内" required> 1个月内</label>
-                <label><input type="radio" name="buying_timeline" value="3个月内"> 3个月内</label>
-                <label><input type="radio" name="buying_timeline" value="暂时没计划"> 暂时没有计划</label>
+            <div class="question">
+                <span class="question-text">12. Khi nào bạn định mua đồ mới? <span class="lang-zh">你未来多久内可能购买新的数码产品？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="buying_timeline" value="1 tháng" required> Trong 1 tháng / 1个月内</label>
+                    <label><input type="radio" name="buying_timeline" value="3 tháng"> Trong 3 tháng / 3个月内</label>
+                    <label><input type="radio" name="buying_timeline" value="Chưa có kế hoạch"> Chưa có kế hoạch / 暂时没计划</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">13. 如果价格更便宜，你最多愿意等待多久？</span>
-            <div class="options-group">
-                <label><input type="radio" name="wait_tolerance" value="不等待" required> 不愿意等待</label>
-                <label><input type="radio" name="wait_tolerance" value="2-3天"> 2~3天</label>
-                <label><input type="radio" name="wait_tolerance" value="3-5天"> 3~5天</label>
-                <label><input type="radio" name="wait_tolerance" value="1周"> 1周</label>
+            <div class="question">
+                <span class="question-text">13. Bạn sẵn lòng chờ bao lâu nếu giá rẻ hơn? <span class="lang-zh">如果价格更便宜，你最多愿意等待多久？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="wait_tolerance" value="Không chờ" required> Không chờ / 不等待</label>
+                    <label><input type="radio" name="wait_tolerance" value="2-3 ngày"> 2-3 ngày / 天</label>
+                    <label><input type="radio" name="wait_tolerance" value="3-5 ngày"> 3-5 ngày / 天</label>
+                    <label><input type="radio" name="wait_tolerance" value="1 tuần"> 1 tuần / 周</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">14. 你更倾向于哪种支付方式？</span>
-            <div class="options-group">
-                <label><input type="radio" name="payment_pref" value="COD" required> 货到付款（COD）</label>
-                <label><input type="radio" name="payment_pref" value="银行转账"> 银行转账</label>
-                <label><input type="radio" name="payment_pref" value="电子钱包"> MoMo等电子钱包</label>
-                <label><input type="radio" name="payment_pref" value="当面交易"> 当面交易</label>
+            <div class="question">
+                <span class="question-text">14. Hình thức thanh toán yêu thích? <span class="lang-zh">你更倾向于哪种支付方式？</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="payment_pref" value="COD" required> COD / 货到付款</label>
+                    <label><input type="radio" name="payment_pref" value="Chuyển khoản"> Chuyển khoản / 银行转账</label>
+                    <label><input type="radio" name="payment_pref" value="Ví điện tử"> Ví điện tử / 电子钱包</label>
+                    <label><input type="radio" name="payment_pref" value="Giao dịch trực tiếp"> Giao dịch trực tiếp / 当面交易</label>
+                </div>
             </div>
-        </div>
 
-        <div class="section-title">第四部分：信任与售后</div>
-
-        <div class="question">
-            <span class="question-text">15. 购买数码产品时，你最担心什么？（可多选）</span>
-            <div class="options-group">
-                <label><input type="checkbox" name="main_concerns" value="假货"> 假货</label>
-                <label><input type="checkbox" name="main_concerns" value="电池问题"> 电池问题</label>
-                <label><input type="checkbox" name="main_concerns" value="没有售后"> 没有售后</label>
-                <label><input type="checkbox" name="main_concerns" value="隐藏问题"> 产品有隐藏问题</label>
-                <label><input type="checkbox" name="main_concerns" value="描述不符"> 与描述不符</label>
+            <div class="question">
+                <span class="question-text">15. Điều bạn lo lắng nhất? (Nhiều lựa chọn) <span class="lang-zh">购买数码产品时，你最担心什么？</span></span>
+                <div class="options-group">
+                    <label><input type="checkbox" name="main_concerns" value="Hàng giả"> Hàng giả / 假货</label>
+                    <label><input type="checkbox" name="main_concerns" value="Pin yếu"> Pin yếu / 电池问题</label>
+                    <label><input type="checkbox" name="main_concerns" value="Không bảo hành"> Không bảo hành / 没有售后</label>
+                    <label><input type="checkbox" name="main_concerns" value="Lỗi ẩn"> Lỗi ẩn / 隐藏问题</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">16. 你对数码产品售后服务最看重什么？（可多选）</span>
-            <div class="options-group">
-                <label><input type="checkbox" name="service_priority" value="线下检测"> 可以线下检测</label>
-                <label><input type="checkbox" name="service_priority" value="有人处理"> 出问题有人处理</label>
-                <label><input type="checkbox" name="service_priority" value="短期保修"> 有短期保修</label>
-                <label><input type="checkbox" name="service_priority" value="快速回复"> 能快速回复消息</label>
-                <label><input type="checkbox" name="service_priority" value="实体店合作"> 有实体店合作</label>
-                <label><input type="checkbox" name="service_priority" value="当面交易"> 可以当面交易</label>
+            <div class="question">
+                <span class="question-text">16. Bạn coi trọng dịch vụ nào? (Nhiều lựa chọn) <span class="lang-zh">你对售后服务最看重什么？</span></span>
+                <div class="options-group">
+                    <label><input type="checkbox" name="service_priority" value="Kiểm tra tại chỗ"> Kiểm tra tại chỗ / 线下检测</label>
+                    <label><input type="checkbox" name="service_priority" value="Bảo hành ngắn hạn"> Bảo hành ngắn hạn / 短期保修</label>
+                    <label><input type="checkbox" name="service_priority" value="Phản hồi nhanh"> Phản hồi nhanh / 快速回复</label>
+                    <label><input type="checkbox" name="service_priority" value="Giao dịch trực tiếp"> Giao dịch trực tiếp / 当面交易</label>
+                </div>
             </div>
-        </div>
 
-        <div class="section-title">第五部分：联系方式</div>
-
-        <div class="question">
-            <span class="question-text">17. 常用联系方式类型</span>
-            <div class="options-group">
-                <label><input type="radio" name="contact_type" value="Zalo" required> Zalo</label>
-                <label><input type="radio" name="contact_type" value="Facebook"> Facebook</label>
-                <label><input type="radio" name="contact_type" value="Email"> Email</label>
-                <label><input type="radio" name="contact_type" value="不提供"> 不提供</label>
+            <div class="question">
+                <span class="question-text">17. Hình thức liên hệ? <span class="lang-zh">常用联系方式类型</span></span>
+                <div class="options-group">
+                    <label><input type="radio" name="contact_type" value="Zalo" required> Zalo</label>
+                    <label><input type="radio" name="contact_type" value="Facebook"> Facebook</label>
+                    <label><input type="radio" name="contact_type" value="Email"> Email</label>
+                    <label><input type="radio" name="contact_type" value="Không cung cấp"> Không cung cấp / 不提供</label>
+                </div>
             </div>
-        </div>
 
-        <div class="question">
-            <span class="question-text">18. 具体联系账号/号码</span>
-            <input type="text" name="contact_info" placeholder="具体账号或号码（可选）">
-        </div>
+            <div class="question">
+                <span class="question-text">18. Tài khoản/Số liên lạc? <span class="lang-zh">具体联系账号/号码</span></span>
+                <input type="text" name="contact_info" placeholder="ID / Phone number (Optional)">
+            </div>
 
-        <button type="button" class="submit-btn" id="submitBtn">提交问卷</button>
-    </form>
+            <button type="button" class="submit-btn" id="submitBtn">Gửi kết quả / 提交问卷</button>
+        </form>
+    </div>
+
+    <div id="lotterySection" class="hidden" style="text-align: center;">
+        <h2>🎉 Cảm ơn bạn! Hãy thử vận may!</h2>
+        <p>感谢参与！请开始你的抽奖</p>
+        <div class="wheel-box">
+            <div class="pointer"></div>
+            <div id="wheel"></div>
+        </div>
+        <button type="button" id="spinBtn" class="submit-btn" style="background: var(--accent-color);">Quay ngay / 立即抽奖</button>
+        <h3 id="prizeMsg" class="hidden" style="margin-top:20px; color: var(--accent-color);"></h3>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -226,57 +230,81 @@
     const SUPABASE_KEY = 'sb_publishable_rKgeuYPp0xX2q40um6hTjw_MpQ7FKXr';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // 第10题：限制最多选2项
+    const prizes = [
+        { text: "Cảm ơn\n谢谢参与", color: "#f1f5f9" },
+        { text: "1.000 VND", color: "#fff" },
+        { text: "2.000 VND", color: "#f1f5f9" },
+        { text: "5.000 VND", color: "#fff" },
+        { text: "10.000 VND", color: "#ffd700" }
+    ];
+
+    const wheel = document.getElementById('wheel');
+    prizes.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.className = 'prize-item';
+        div.style.transform = `rotate(${i * 72}deg) skewY(18deg)`; 
+        div.style.background = p.color;
+        div.innerHTML = `<span style="transform: skewY(-18deg) rotate(36deg); display:block;">${p.text}</span>`;
+        wheel.appendChild(div);
+    });
+
+    const otherRadio = document.getElementById('wishlist_other_radio');
+    const otherInput = document.getElementById('wishlist_other_input');
+    document.getElementsByName('future_wishlist').forEach(r => {
+        r.onchange = () => otherInput.classList.toggle('hidden', !otherRadio.checked);
+    });
+
+    // 限制第10题选择数量
     const factorCheckboxes = document.querySelectorAll('input[name="buying_factors"]');
     factorCheckboxes.forEach(cb => {
         cb.addEventListener('change', () => {
-            const checked = document.querySelectorAll('input[name="buying_factors"]:checked');
-            if (checked.length > 2) {
+            if (document.querySelectorAll('input[name="buying_factors"]:checked').length > 2) {
                 cb.checked = false;
-                alert("抱歉，这一题最多只能选择 2 项。");
+                alert("Tối đa 2 lựa chọn / 最多选2项");
             }
         });
     });
 
-    // 第7题“其他”联动逻辑
-    const otherRadio = document.getElementById('wishlist_other_radio');
-    const otherInput = document.getElementById('wishlist_other_input');
-    document.querySelectorAll('input[name="future_wishlist"]').forEach(r => {
-        r.onchange = () => {
-            otherInput.classList.toggle('hidden', !otherRadio.checked);
-            if(otherRadio.checked) otherInput.focus();
-        }
-    });
-
     document.getElementById('submitBtn').onclick = async () => {
+        const form = document.getElementById('surveyForm');
+        if (!form.checkValidity()) { alert("Vui lòng hoàn thành / 请填完必填项"); return; }
+        
         const btn = document.getElementById('submitBtn');
-        if (!document.getElementById('surveyForm').checkValidity()) {
-            alert("请填完必填项"); return;
-        }
+        btn.disabled = true; btn.innerText = "Đang gửi...";
 
-        btn.disabled = true; btn.innerText = "提交中...";
-        const formData = new FormData(document.getElementById('surveyForm'));
+        const formData = new FormData(form);
         const submission = {};
-
-        const keys = [
-            'age_group', 'gender', 'identity', 'residence', 'current_phone',
-            'phone_price', 'future_wishlist', 'social_media', 'info_source',
-            'buying_factors', 'second_hand_attitude', 'buying_timeline', 
-            'wait_tolerance', 'payment_pref', 'main_concerns', 'service_priority',
-            'contact_type', 'contact_info'
-        ];
-
+        const keys = ['age_group','gender','identity','residence','current_phone','phone_price','future_wishlist','social_media','info_source','buying_factors','second_hand_attitude','buying_timeline','wait_tolerance','payment_pref','main_concerns','service_priority','contact_type','contact_info'];
+        
         keys.forEach(k => {
             let val = formData.getAll(k).join(', ');
-            if (k === 'future_wishlist' && otherRadio.checked) {
-                val = "其他: " + otherInput.value;
-            }
+            if (k === 'future_wishlist' && otherRadio.checked) val = "Other: " + otherInput.value;
             submission[k] = val;
         });
 
         const { error } = await supabaseClient.from('survey_01_VN').insert([submission]);
-        if (error) { alert("失败: " + error.message); btn.disabled = false; }
-        else { alert("提交成功！"); location.reload(); }
+        if (!error) {
+            document.getElementById('surveyContent').classList.add('hidden');
+            document.getElementById('lotterySection').classList.remove('hidden');
+        } else {
+            alert("Lỗi / 失败: " + error.message);
+            btn.disabled = false;
+        }
+    };
+
+    let isSpinning = false;
+    document.getElementById('spinBtn').onclick = () => {
+        if (isSpinning) return;
+        isSpinning = true;
+        const randomDeg = Math.floor(Math.random() * 360) + 1800;
+        wheel.style.transform = `rotate(${randomDeg}deg)`;
+        setTimeout(() => {
+            const prizeIndex = Math.floor((360 - (randomDeg % 360)) / 72) % 5;
+            const msg = document.getElementById('prizeMsg');
+            msg.innerText = `Chúc mừng! Bạn nhận được: ${prizes[prizeIndex].text.replace('\n', ' ')}`;
+            msg.classList.remove('hidden');
+            alert("Vui lòng chụp màn hình để nhận thưởng / 请截图联系负责人领奖");
+        }, 4000);
     };
 </script>
 </body>
